@@ -1,6 +1,8 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, MoonIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom'
+import { SunIcon } from '@heroicons/react/20/solid'
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
@@ -14,6 +16,8 @@ function classNames(...classes : Array<string>) {
 }
 
 export default function Header() {
+  const [theme, setTheme] = useState<"light" | "dark">("light")
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -47,9 +51,9 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:block lg:ml-auto">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
@@ -57,7 +61,7 @@ export default function Header() {
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -69,6 +73,15 @@ export default function Header() {
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+                {/* theme toggle */}
+                <button
+                  type="button"
+                  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  onClick={()=>{ theme == "dark" ? setTheme("light"): setTheme("dark")}}
+                >
+                  <span className="sr-only">View notifications</span>
+                  {theme == "light" ? <SunIcon className="h-6 w-6"/> : <MoonIcon className="h-6 w-6"/> }
                 </button>
 
                 {/* Profile dropdown */}
