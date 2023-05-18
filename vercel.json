@@ -1,6 +1,8 @@
 {
     "functions": {
-      "directory": "api"
+      "api/*.go": {
+        "maxDuration" : 10
+      }
     }
-  }
+}
   
