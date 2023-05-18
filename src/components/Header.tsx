@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, MoonIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { SunIcon } from '@heroicons/react/20/solid'
 
 const navigation = [
@@ -14,6 +14,8 @@ const navigation = [
 function classNames(...classes : Array<string>) {
   return classes.filter(Boolean).join(' ')
 }
+
+
 
 export default function Header() {
   const [theme, setTheme] = useState<"light" | "dark">("light")
@@ -36,32 +38,32 @@ export default function Header() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+                <NavLink to={"/"} className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
                     src="/logo.svg"
-                    alt="Your Company"
+                    alt="Store"
                   />
                   <img
                     className="hidden h-8 scale-150 w-auto lg:block"
                     src="/logo.svg"
-                    alt="Your Company"
+                    alt="Store"
                   />
-                </div>
+                </NavLink>
                 <div className="hidden sm:ml-6 sm:block lg:ml-auto">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <Link
+                      <NavLink
                         key={item.name}
                         to={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                        className={({isActive, isPending}) : string | undefined => classNames(
+                          isActive ? 'bg-gray-900 text-white' : isPending ? ' hover:bg-gray-700 hover:text-white' : "",
+                          'rounded-md px-3 py-2 text-sm font-medium text-gray-300'
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </Link>
+                      </NavLink>
                     ))}
                   </div>
                 </div>
@@ -77,11 +79,11 @@ export default function Header() {
                 {/* theme toggle */}
                 <button
                   type="button"
-                  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="rounded-full outline-none bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   onClick={()=>{ theme == "dark" ? setTheme("light"): setTheme("dark")}}
                 >
                   <span className="sr-only">View notifications</span>
-                  {theme == "light" ? <SunIcon className="h-6 w-6"/> : <MoonIcon className="h-6 w-6"/> }
+                  {theme == "light" ? <SunIcon className="h-6 w-6 outline-none"/> : <MoonIcon className="h-6 w-6 outline-none border-none"/> }
                 </button>
 
                 {/* Profile dropdown */}
